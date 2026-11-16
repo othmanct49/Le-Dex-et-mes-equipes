@@ -102,23 +102,22 @@ let search = document.getElementById('search');
    if (filter_botton_cliced === "Tous"){
   grid.innerHTML = " "
   videcart ()
-  
-  let liste_recherche = await rocherch( input_search )
-    
-  let card_recherche = await Promise.all   (liste_recherche.map( cart =>  get_caracter(cart)))
-    if (card_recherche.length === 0 ){
+  console.log(input_search)
+  let liste_recherche = await getCreatures(`/creatures?q=${input_search}`)
+  console.log (liste_recherche)
+    if (liste_recherche.length === 0 ){
     not_fond( input_search )
     return
    }
 
 
-       serchaffichag(card_recherche)}
+       serchaffichag(liste_recherche)}
        /// serch by type
        else {
          grid.innerHTML = " "
   videcart ()
   
-  let card_recherche = await rocherchfelter( input_search , filter_botton_cliced  )
+  let card_recherche =  await getCreatures("/creatures")
     
   // let card_recherche = await Promise.all   (liste_recherche.map( cart =>  get_caracter(cart)))
     if (card_recherche.length === 0 ){
