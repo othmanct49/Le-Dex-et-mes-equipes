@@ -12,7 +12,7 @@ const effacer = document.getElementById('effacer')
  affechezFav(  fav_aj)
 
 videcart() 
-export let  creatures  = await getCreatures() ;
+export let  creatures  = await getCreatures("/creatures") ;
 console.log(creatures)
 Affichez(creatures , grid);
 
@@ -185,16 +185,16 @@ const click_type = type.addEventListener('click', async (event) =>  {
      console.log(filter_botton_cliced)
      suprimernumberPlusfiltre()
     // let index_cart_by_type = creatures.filter(cart => cart.type.toLowerCase().includes(select_type))
-    let caracterSommeType =  await  getSommeType (select_type)
-    console.log( caracterSommeType )
+    creatures =  await  getCreatures (`/creatures?type=${select_type}`)
+  
     let depart = 0; 
-    let caracter20Filter = await get20ByType (caracterSommeType , depart)
    
-    console.log(caracter20Filter)
+   
+   
     grid.innerHTML =''
      
      
-      affichez_filter (caracter20Filter  )
+      Affichez ( creatures , grid )
 
 
     remove_style_button.forEach(remov => remov.classList.remove('text-white', 'border-ink', 'bg-ink'))
@@ -207,6 +207,7 @@ const click_type = type.addEventListener('click', async (event) =>  {
   } else {
     filter_botton_cliced = 'Tous'
       search.value=''
+  creatures  = await getCreatures("/creatures")
     Affichez(creatures , grid)
 
     remove_style_button.forEach(remov => remov.classList.remove('text-white', 'border-ink', 'bg-ink'))

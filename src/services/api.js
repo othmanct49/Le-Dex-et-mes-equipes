@@ -3,7 +3,7 @@
  const URL_BASE = "http://localhost:3000"
 
      
-  export async function  request(method = "GET", route = '/creatures' , body = null)  {
+  export async function  request(method , route  , body = null)  {
     const methodFetch = {
       method : method , 
       headers : {
@@ -34,8 +34,8 @@ try{
 
 
 
-  export async function getCreatures(){
-    const data = await request()
+  export async function getCreatures( route ){
+    const data = await request(  "GET" , route )
     return  Promise.all(data)
  }
 //  export async function 
