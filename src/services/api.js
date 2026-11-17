@@ -38,7 +38,10 @@ try{
     const data = await request(  "GET" , route )
     return  Promise.all(data)
  }
-//  export async function 
+ export async function getCreatureById(id) {
+    const data = await request( "GET" , `/creatures/${id}`)
+    return data
+ }
 
 
 

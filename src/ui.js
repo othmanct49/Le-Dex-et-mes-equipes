@@ -181,8 +181,11 @@ export function videcart (){
   }
 }
 export function not_fond (input ){
-  grid.innerHTML  = `<p> Aucune créature trouvée pour ${input} <p>  `
-
+  grid.innerHTML  = `
+  <div class="col-span-full flex flex-col items-center justify-center gap-4 text-center  py-20 ">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" height="48px" width="48px" fill="#9CA3AF"><path d="M6.8,41.2Q4,38.4 4,34.5t2.8-6.7T13.5,25t6.7,2.8T23,34.5t-2.8,6.7T13.5,44T6.8,41.2Zm35,0.8L28.65,28.85q-0.7,0.55-1.57,1.08T25.4,30.8q-0.25-0.7-0.55-1.43t-0.7-1.33q2.7-1.05 4.57-3.47T30.6,18.8q0-4.05-2.85-6.92T20.85,9q-4.1,0-6.98,2.88T11,18.8q0,0.85 0.18,1.78t0.43,1.57q-0.65,0.1-1.45,0.32T8.7,23q-0.35-0.9-0.53-2T8,18.8q0-5.35 3.75-9.07T20.85,6q5.3,0 9.02,3.75T33.6,18.8q0,2.15-0.75,4.25T30.8,26.7L44,39.8L41.8,42ZM10.05,39.2l3.45-3.45l3.4,3.4L18.05,38L14.6,34.55L18.15,31L17,29.85l-3.5,3.5L10,29.85L8.85,31l3.5,3.5L8.85,38l1.2,1.2Z"/></svg>
+  <p> Aucune créature trouvée pour ${input} <p>  
+</div>`
 }
 export function messageEreur (erreur , grid){
   grid.innerHTML = ''

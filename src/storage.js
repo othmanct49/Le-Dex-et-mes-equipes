@@ -1,5 +1,6 @@
 import { Affichez  , affichez_filter} from './ui.js';
 import { creatures } from './main.js'
+import {getCreatureById} from './services/api.js'
 export let numberPlus = 0 ;
 
  let  numberPlusfiltre =0
@@ -31,7 +32,7 @@ export async function plusfeltre20 (grid  , filterBotton) {
 }
 export async function addFavLS ( id ){
     console.log(id)
-    const data = await get_caracterById(id)
+    const data = await getCreatureById(id)
     console.log(data)
     const favList = JSON.parse(localStorage.getItem('fav')) || []
       favList.push (data)
@@ -47,5 +48,12 @@ export  function removeFavLS (id){
 export function getfavLs(){
     const listFav =  JSON.parse(localStorage.getItem('fav')) || [] 
     return listFav 
+}
+export  function addTypeLS ( type ){
+    localStorage.setItem('type' , JSON.stringify(type))
+}
+export function getTypeLS (){
+    const type = JSON.parse(localStorage.getItem('type')) || "Tous"
+    return type
 }
 
