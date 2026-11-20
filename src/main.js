@@ -1,6 +1,6 @@
 import { pluscaracter, numberPlus, suprimernumberPlusfiltre, addFavLS, removeFavLS, plusfeltre20, addTypeLS, getTypeLS, getFormSS, addFormSS } from './storage.js'
 import { Affichez, Affichez_details, affichez_filter, serchaffichag, videcart, not_fond, affechezFav, messageEreur } from './ui.js';
-import { request, getCreatures, getCreatureById, createCreature } from './services/api.js'
+import { request, getCreatures, getCreatureById, createCreature, deleteCreature } from './services/api.js'
 
 
 // -------------------------------------------------------------
@@ -14,6 +14,8 @@ const effacer = document.getElementById('effacer')
 const remove_style_button = document.querySelectorAll('button')
 const Trier = document.querySelector('[name="Trier"]')
 const get_form = document.querySelector('#creature-form');
+// const delet_créature = document.querySelector("[data-delete]")
+// const edit_créature = document.querySelector("[data-edit]") 
 let typeActiveLS = getTypeLS()
 const typeStile = document.querySelector(`[data-type="${typeActiveLS}"]`)
 
@@ -391,7 +393,7 @@ const listenerB = get_form.addEventListener("submit", (event) => {
     description: nwe_data.get("description")
 
   }
-  createCreature(data_add)
+  createCreature(data_add, "/ creatures")
 
   grid.innerHTML = ""
   Affichez()
@@ -471,15 +473,17 @@ const ajout_listener = grid.addEventListener('click', (event) => {
   if (!ajout_input) { return }
   const get_id_aj = find_id.textContent
   console.log(get_id_aj)
-  const get_index = creatures.findIndex(element => element.id == get_id_aj)
-  const get_image_aj = creatures[get_index].image
-  const get_name_aj = creatures[get_index].name
+  // const get_index = creatures.findIndex(element => element.id == get_id_aj)
+ const get_data_select = getCreatureById(get_id_aj)
+  const get_image_aj = get_data_select.image
+  const get_name_aj = get_data_select.name
   let data_object = {
     id: get_id_aj,
     image: get_image_aj,
     name: get_name_aj
   }
-  console.log(data_object)
+  
+ 
 
   if (ajout_list.length < 6 && !ajout_list.some(element => element.image == get_image_aj)) {
     ajout_list.push(data_object)
@@ -548,10 +552,20 @@ const retirer_listener = get_team_div_r.addEventListener('click', (event) => {
 
 
 // -------------------------------------------------------------
-// 7. RÈGLES DE L'ÉQUIPE
-// 6 créatures au maximum, pas de doublon, un message clair quand
-// une action est refusée, et un compteur (x/6).
+// ////////////////////  DELET 
 // -------------------------------------------------------------
+grid.addEventListener('click', async event => {
+  const event_click = event.target.closest('[data-delete]')
+  if (event_click) {
+   const message_confirmation = confirm('are you sure ?')
+    if (!message_confirmation) {
+      return 
+    }
+    await deleteCreature( event_click.dataset.delete )
+    creatures = await  getCreatures ('/creatures')
+    Affichez(creatures , grid)
+  }
+})
 
 
 // -------------------------------------------------------------

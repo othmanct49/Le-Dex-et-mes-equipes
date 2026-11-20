@@ -194,32 +194,6 @@
       },
       "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/92.png",
       "description": "Composé de gaz toxique à 95%, il peut envelopper n'importe quelle cible pour l'endormir."
-    },
-    {
-      "id": 16,
-      "name": "Skelenox",
-      "type": "Ténèbres",
-      "level": "Base",
-      "stats": {
-        "hp": 20,
-        "attack": 40,
-        "defence": 90
-      },
-      "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/355.png",
-      "description": "Il erre solitaire dans la nuit sombre. Quand il pleure, son cri résonne comme un glas lugubre."
-    },
-    {
-      "id": "17",
-      "name": "othmane1949",
-      "type": "Plante",
-      "level": "base",
-      "stats": {
-        "hp": "43",
-        "attack": "12",
-        "defence": "12"
-      },
-      "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/355.png",
-      "description": "djwkdnwjdnwje njwenjnwr jnekjnwer"
     }
   ],
   "teams": [

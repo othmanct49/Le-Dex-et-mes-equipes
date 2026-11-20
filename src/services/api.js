@@ -42,13 +42,12 @@ try{
     const data = await request( "GET" , `/creatures/${id}`)
     return data
  }
-export async function createCreature(objet) {
-  await request('POST', "/creatures" , objet )                                                                                                                                                                                         
-     
-
-  
+export async function createCreature(objet , route) {
+  await request('POST', route , objet )                                                                                                                                                                                         
 }
-
+export async function deleteCreature(id) {
+  await request ('DELETE' , `/creatures/${id}` )
+}
 
 
 

@@ -1,14 +1,14 @@
-import {getfavLs} from './storage.js'
+import { getfavLs } from './storage.js'
 ///// affichez dans grid :
-export function Affichez(creatures, dom  ) {
-   const LocS = getfavLs()
+export function Affichez(creatures, dom) {
+  const LocS = getfavLs()
 
-  grid.innerHTML=''
+  grid.innerHTML = ''
   creatures.forEach(cart => {
-      if (LocS.some(item => item.id == cart.id) ){
+    if (LocS.some(item => item.id == cart.id)) {
 
 
-    dom.insertAdjacentHTML('beforeend', `  <article   class="select_card  flex flex-col gap-3 rounded-card bg-white  hover:-translate-y-4 hover:shadow-lg transition-all duration-300  p-3 pb-4">
+      dom.insertAdjacentHTML('beforeend', `  <article   class="select_card  flex flex-col gap-3 rounded-card bg-white  hover:-translate-y-4 hover:shadow-lg transition-all duration-300  p-3 pb-4">
           
           <div class="relative flex h-36 items-center justify-center rounded-xl bg-brand-light">
           <img src="${cart.image}" width="140px" class="  hover:-translate-y-2 hover:scale-200 mx-auto  transition-transform duration-300  " > 
@@ -23,10 +23,19 @@ export function Affichez(creatures, dom  ) {
           </div>
           <p class="text-sm text-muted">${cart.level} ·${Number(cart.stats.hp) + Number(cart.stats.attack) + Number(cart.stats.defence)} </p>
           <button id="ajouter" type="button" class="btn-outline">Ajouter à l'équipe</button>
+          <div class="flex gap-2">
+  <button type="button" data-edit="${cart.id}" class="btn-outline">
+    Modifier
+  </button>
+
+  <button type="button" data-delete="${cart.id}" class="btn-outline">
+    Supprimer
+  </button>
+</div>
         </article> ` )
 
-} else {
-  dom.insertAdjacentHTML('beforeend', `  <article   class="select_card  flex flex-col gap-3 rounded-card bg-white  hover:-translate-y-4 hover:shadow-lg transition-all duration-300  p-3 pb-4">
+    } else {
+      dom.insertAdjacentHTML('beforeend', `  <article   class="select_card  flex flex-col gap-3 rounded-card bg-white  hover:-translate-y-4 hover:shadow-lg transition-all duration-300  p-3 pb-4">
           
           <div class="relative flex h-36 items-center justify-center rounded-xl bg-brand-light">
           <img src="${cart.image}" width="140px" class="  hover:-translate-y-2 hover:scale-200 mx-auto  transition-transform duration-300  " > 
@@ -41,14 +50,24 @@ export function Affichez(creatures, dom  ) {
           </div>
           <p class="text-sm text-muted">${cart.level} ·${Number(cart.stats.hp) + Number(cart.stats.attack) + Number(cart.stats.defence)} </p>
           <button id="ajouter" type="button" class="btn-outline">Ajouter à l'équipe</button>
+          <div class="flex gap-2">
+  <button type="button" data-edit="${cart.id}" class="btn-outline">
+    Modifier
+  </button>
+
+  <button type="button" data-delete="${cart.id}" class="btn-outline">
+    Supprimer
+  </button>
+</div>
+          
         </article> ` )
 
-}
+    }
 
-});
+  });
 }
 // Affichez details 
-export function Affichez_details(details,  creatures, ajout_list) {
+export function Affichez_details(details, creatures, ajout_list) {
 
   details.innerHTML = `<div class="flex items-center justify-between">
             <span class="font-mono text-sm text-muted">${creatures.id} · Détail</span>
@@ -76,12 +95,12 @@ export function Affichez_details(details,  creatures, ajout_list) {
           <button id="ajouter" data-id="${creatures.id}" ${ajout_list.some(element => element.id == creatures.id) ? 'disabled' : ''} type="button" class="btn-primary">Ajouter à l'équipe</button>`
 }
 ////// affechez felter 
-export  async function affichez_filter( caracter20Filter ) {
-   const LocS = getfavLs()
-  caracter20Filter.forEach( cart => {
-       if ( LocS.some(item => item.id == cart.id)){
+export async function affichez_filter(caracter20Filter) {
+  const LocS = getfavLs()
+  caracter20Filter.forEach(cart => {
+    if (LocS.some(item => item.id == cart.id)) {
 
-   grid.insertAdjacentHTML('beforeend', `  <article   class="select_card  flex flex-col gap-3 rounded-card bg-white  hover:-translate-y-4 hover:shadow-lg transition-all duration-300  p-3 pb-4">
+      grid.insertAdjacentHTML('beforeend', `  <article   class="select_card  flex flex-col gap-3 rounded-card bg-white  hover:-translate-y-4 hover:shadow-lg transition-all duration-300  p-3 pb-4">
           
           <div class="relative flex h-36 items-center justify-center rounded-xl bg-brand-light">
           <img src="${cart.image}" width="140px" class="  hover:-translate-y-2 hover:scale-200 mx-auto  transition-transform duration-300  " > 
@@ -94,9 +113,10 @@ export  async function affichez_filter( caracter20Filter ) {
           </div>
           <p class="text-sm text-muted">${cart.level} ·${cart.stats.hp + cart.stats.attack + cart.stats.defence} </p>
           <button id="ajouter" type="button" class="btn-outline">Ajouter à l'équipe</button>
-        </article> ` )}
-        else {
-             grid.insertAdjacentHTML('beforeend', `  <article   class="select_card  flex flex-col gap-3 rounded-card bg-white  hover:-translate-y-4 hover:shadow-lg transition-all duration-300  p-3 pb-4">
+        </article> ` )
+    }
+    else {
+      grid.insertAdjacentHTML('beforeend', `  <article   class="select_card  flex flex-col gap-3 rounded-card bg-white  hover:-translate-y-4 hover:shadow-lg transition-all duration-300  p-3 pb-4">
           
           <div class="relative flex h-36 items-center justify-center rounded-xl bg-brand-light">
           <img src="${cart.image}" width="140px" class="  hover:-translate-y-2 hover:scale-200 mx-auto  transition-transform duration-300  " > 
@@ -110,19 +130,19 @@ export  async function affichez_filter( caracter20Filter ) {
           <p class="text-sm text-muted">${cart.level} ·${cart.stats.hp + cart.stats.attack + cart.stats.defence} </p>
           <button id="ajouter" type="button" class="btn-outline">Ajouter à l'équipe</button>
         </article> ` )
-        }
-      
-      
-      })
+    }
+
+
+  })
 }
 // affichage serch 
-export function serchaffichag (card_recherche){
-   const LocS = getfavLs()
+export function serchaffichag(card_recherche) {
+  const LocS = getfavLs()
   grid.innerHTML = ''
 
   card_recherche.forEach(cart => {
-  if ( LocS.some(item => item.id == cart.id)){
-    grid.insertAdjacentHTML('beforeend', `  <article   class="select_card   flex flex-col gap-3 rounded-card bg-white  hover:-translate-y-4 hover:shadow-lg transition-all duration-300  p-3 pb-4">
+    if (LocS.some(item => item.id == cart.id)) {
+      grid.insertAdjacentHTML('beforeend', `  <article   class="select_card   flex flex-col gap-3 rounded-card bg-white  hover:-translate-y-4 hover:shadow-lg transition-all duration-300  p-3 pb-4">
           
           <div class="relative flex h-36 items-center justify-center rounded-xl bg-brand-light">
           <img src="${cart.image}" width="140px" class="  hover:-translate-y-2 hover:scale-200 mx-auto  transition-transform duration-300  " > 
@@ -136,9 +156,10 @@ export function serchaffichag (card_recherche){
           </div>
           <p class="text-sm text-muted">${cart.level} ·${cart.stats.hp + cart.stats.attack + cart.stats.defence} </p>
           <button id="ajouter" type="button" class="btn-outline">Ajouter à l'équipe</button>
-        </article> ` )} 
-        else {
-          grid.insertAdjacentHTML('beforeend', `  <article   class="select_card   flex flex-col gap-3 rounded-card bg-white  hover:-translate-y-4 hover:shadow-lg transition-all duration-300  p-3 pb-4">
+        </article> ` )
+    }
+    else {
+      grid.insertAdjacentHTML('beforeend', `  <article   class="select_card   flex flex-col gap-3 rounded-card bg-white  hover:-translate-y-4 hover:shadow-lg transition-all duration-300  p-3 pb-4">
           <div class="relative flex h-36 items-center justify-center rounded-xl bg-brand-light">
          
           <img src="${cart.image}" width="140px" class="  hover:-translate-y-2 hover:scale-200 mx-auto  transition-transform duration-300  " > 
@@ -153,14 +174,14 @@ export function serchaffichag (card_recherche){
           <p class="text-sm text-muted">${cart.level} ·${cart.stats.hp + cart.stats.attack + cart.stats.defence} </p>
           <button id="ajouter" type="button" class="btn-outline">Ajouter à l'équipe</button>
         </article> ` )
-        }
+    }
 
 
   })
 }
-export function videcart (){
+export function videcart() {
   grid.innerHTML = ''
-  for (let i = 0 ; i < 8 ; i ++){
+  for (let i = 0; i < 8; i++) {
     grid.insertAdjacentHTML('beforeend', ` <article
   aria-hidden="true"
   class="flex flex-col gap-3 rounded-card bg-white p-3 pb-4 motion-safe:animate-pulse"
@@ -180,24 +201,24 @@ export function videcart (){
 </article>` )
   }
 }
-export function not_fond (input ){
-  grid.innerHTML  = `
+export function not_fond(input) {
+  grid.innerHTML = `
   <div class="col-span-full flex flex-col items-center justify-center gap-4 text-center  py-20 ">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" height="48px" width="48px" fill="#9CA3AF"><path d="M6.8,41.2Q4,38.4 4,34.5t2.8-6.7T13.5,25t6.7,2.8T23,34.5t-2.8,6.7T13.5,44T6.8,41.2Zm35,0.8L28.65,28.85q-0.7,0.55-1.57,1.08T25.4,30.8q-0.25-0.7-0.55-1.43t-0.7-1.33q2.7-1.05 4.57-3.47T30.6,18.8q0-4.05-2.85-6.92T20.85,9q-4.1,0-6.98,2.88T11,18.8q0,0.85 0.18,1.78t0.43,1.57q-0.65,0.1-1.45,0.32T8.7,23q-0.35-0.9-0.53-2T8,18.8q0-5.35 3.75-9.07T20.85,6q5.3,0 9.02,3.75T33.6,18.8q0,2.15-0.75,4.25T30.8,26.7L44,39.8L41.8,42ZM10.05,39.2l3.45-3.45l3.4,3.4L18.05,38L14.6,34.55L18.15,31L17,29.85l-3.5,3.5L10,29.85L8.85,31l3.5,3.5L8.85,38l1.2,1.2Z"/></svg>
   <p> Aucune créature trouvée pour ${input} <p>  
 </div>`
 }
-export function messageEreur (erreur , grid){
+export function messageEreur(erreur, grid) {
   grid.innerHTML = ''
   const message = document.createElement('p')
   message.id = 'errormessage'
   // message.classList.add('')
   message.textContent = erreur
-  grid.appendChild (message)
+  grid.appendChild(message)
   const Reessayer = document.createElement('button')
-  Reessayer.id = 'reessayer' 
-  Reessayer.textContent =  'Reessayer'
-  grid.appendChild (message)
+  Reessayer.id = 'reessayer'
+  Reessayer.textContent = 'Reessayer'
+  grid.appendChild(message)
 
 
 
@@ -206,16 +227,16 @@ export function messageEreur (erreur , grid){
 // ===================================
 //       affichez fav
 // ==================================
-export function affechezFav(  fav_aj){
-     const LocS = getfavLs()
-     console.log(LocS)
-     fav_aj.innerHTML = ''
-   LocS.forEach(element => {
-            fav_aj.insertAdjacentHTML('beforeend' , `<div class="relative w-[120px]   h-[70px] flex items-center bg-brand-light rounded-[20px]">
+export function affechezFav(fav_aj) {
+  const LocS = getfavLs()
+  console.log(LocS)
+  fav_aj.innerHTML = ''
+  LocS.forEach(element => {
+    fav_aj.insertAdjacentHTML('beforeend', `<div class="relative w-[120px]   h-[70px] flex items-center bg-brand-light rounded-[20px]">
                <img src="${element.image}" title="${element.name}" width="70" class="  hover:-translate-y-2 hover:scale-120 mx-auto  transition-transform duration-300" >
             </div>`)
 
-          })
+  })
 
 }
 
