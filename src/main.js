@@ -1,6 +1,7 @@
 import { pluscaracter, numberPlus, suprimernumberPlusfiltre, addFavLS, removeFavLS, plusfeltre20, addTypeLS, getTypeLS, getFormSS, addFormSS } from './storage.js'
 import { Affichez, Affichez_details, affichez_filter, serchaffichag, videcart, not_fond, affechezFav, messageEreur } from './ui.js';
-import { request, getCreatures, getCreatureById, createCreature, deleteCreature } from './services/api.js'
+import { request, getCreatures, getCreatureById, createCreature, deleteCreature, updateCreature } from './services/api.js'
+
 
 
 // -------------------------------------------------------------
@@ -14,10 +15,10 @@ const effacer = document.getElementById('effacer')
 const remove_style_button = document.querySelectorAll('button')
 const Trier = document.querySelector('[name="Trier"]')
 const get_form = document.querySelector('#creature-form');
-// const delet_créature = document.querySelector("[data-delete]")
-// const edit_créature = document.querySelector("[data-edit]") 
 let typeActiveLS = getTypeLS()
 const typeStile = document.querySelector(`[data-type="${typeActiveLS}"]`)
+const submitbouton = get_form.querySelector("#submit")
+const tousButton = document.querySelectorAll('.btn-primary')
 
 
 
@@ -50,6 +51,7 @@ if (typeActiveLS !== 'Tous') {
 Trier.addEventListener('change', async () => {
   typeActiveLS = getTypeLS()
   if (typeActiveLS === 'Tous') {
+    // tousButton.
     creatures = await getCreatures(`/creatures?${Trier.value}`)
     if (creatures.length === 0) {
       not_fond(`${typeActiveLS}`)
@@ -296,9 +298,79 @@ const click_type = type.addEventListener('click', async (event) => {
 
 
 const listener = get_form.addEventListener('input', async (event) => {
+  const statusf = get_form.dataset.formstatus
+  if (statusf == 'edit') {
+    
+    const get_input_value = event.target.value
+    const get_input_name = event.target.name
+    if (get_input_name == "name") {
+      addFormSS(get_input_value, "name")
+
+      let regixn = /^[a-zA-Z0-9]+$/;
+      name_check = regixn.test(get_input_value)
+      console.log(name_check)
 
 
-  let descriptionFormSS = getTypeLS("description");
+
+    } else if (get_input_name == "level") {
+      addFormSS(get_input_value, "level")
+      let regixl = /^[a-zA-Z0-9 ]+$/
+      level_check = regixl.test(get_input_value)
+      console.log(level_check)
+
+    } else if (get_input_name == "stat1") {
+      addFormSS(get_input_value, "stat1")
+
+      let regixs1 = /^[0-9]{1,3}$/
+      stat1_check = regixs1.test(get_input_value)
+      console.log(stat1_check)
+    }
+    else if (get_input_name == "stat2") {
+      addFormSS(get_input_value, "stat2")
+
+      let regixs2 = /^[0-9]{1,3}$/
+      stat2_check = regixs2.test(get_input_value)
+      console.log(stat2_check)
+    } else if (get_input_name == "stat3") {
+      addFormSS(get_input_value, "stat3")
+
+      let regixs3 = /^[0-9]{1,3}$/
+      stat3_check = regixs3.test(get_input_value)
+      console.log(stat3_check)
+    } else if (get_input_name == "image") {
+      addFormSS(get_input_value, "image")
+      let regixim = /^https?:\/\/.+\.png$/;
+      image_check = regixim.test(get_input_value)
+      console.log(image_check)
+
+    } else if (get_input_name == "description") {
+      addFormSS(get_input_value, "description")
+      let regixdes = /^.{10,200}$/;
+      description_check = regixdes.test(get_input_value)
+      console.log(description_check)
+    }
+    const checks = {  name: name_check, level: level_check, stat1: stat1_check, stat2: stat2_check, stat3: stat3_check, image: image_check, description: description_check }
+    const span_erreur = event.target.closest('label').querySelector('.error-message')
+    if (checks[get_input_name] == false) {
+      span_erreur.textContent = "Format incorrect"
+    } else {
+      span_erreur.textContent = ""
+    }
+
+    if ( name_check && level_check && stat1_check && stat2_check && stat3_check && description_check) {
+
+      submitbouton.removeAttribute("disabled")
+    } else {
+      submitbouton.setAttribute("disabled", "")
+    }
+
+    return
+  }
+  //////////////////////////////////
+  //      part new form 
+  //////////////////////////////////
+  document.querySelector('[name="id"]').readOnly = false
+
 
   const get_input_value = event.target.value
   const get_input_name = event.target.name
@@ -329,7 +401,7 @@ const listener = get_form.addEventListener('input', async (event) => {
 
 
   } else if (get_input_name == "level") {
-    addFormSS(  get_input_value, "level")
+    addFormSS(get_input_value, "level")
     let regixl = /^[a-zA-Z0-9 ]+$/
     level_check = regixl.test(get_input_value)
     console.log(level_check)
@@ -372,7 +444,7 @@ const listener = get_form.addEventListener('input', async (event) => {
   } else {
     span_erreur.textContent = ""
   }
-  const submitbouton = get_form.querySelector("#submit")
+
   if (id_check && name_check && level_check && stat1_check && stat2_check && stat3_check && description_check) {
 
     submitbouton.removeAttribute("disabled")
@@ -380,6 +452,9 @@ const listener = get_form.addEventListener('input', async (event) => {
     submitbouton.setAttribute("disabled", "")
   }
 })
+//////////////////////////
+/////// submit ///////////
+/////////////////////////
 const listenerB = get_form.addEventListener("submit", (event) => {
   event.preventDefault();
   const nwe_data = new FormData(get_form);
@@ -393,7 +468,11 @@ const listenerB = get_form.addEventListener("submit", (event) => {
     description: nwe_data.get("description")
 
   }
-  createCreature(data_add, "/ creatures")
+  if (get_form.dataset.formstatus === "new") {
+    createCreature(data_add, "/creatures")
+  } else if (get_form.dataset.formstatus === 'edit') {
+    updateCreature(data_add.id, data_add)
+  }
 
   grid.innerHTML = ""
   Affichez()
@@ -405,7 +484,15 @@ const listenerB = get_form.addEventListener("submit", (event) => {
   stat3_check = false;
   image_check = false;
   description_check = false;
+  get_form.removeAttribute('data-formstatus')
+  get_form.setAttribute('data-formstatus', "new")
   get_form.reset();
+  formType.forEach(element => {
+    if (element === "") {
+      return
+    }
+    addFormSS("" ,element)
+  })
 
 
 })
@@ -456,12 +543,11 @@ grid.addEventListener('click', async event => {
 // Boutons « Ajouter à l'équipe » et « Retirer », gérés avec UN SEUL
 // écouteur sur la grille et UN SEUL sur l'équipe (délégation).
 let ajout_list = []
-const ajout_listener = grid.addEventListener('click', (event) => {
+const ajout_listener = grid.addEventListener('click', async (event) => {
   const ajout_input = event.target.closest('#ajouter')
   const cart_click = event.target.closest('.select_card')
   const erreur_messag = document.querySelector('#message')
   const get_team_div = document.getElementById('team_aj')
-  const find_id = document.querySelector('.find_cart')
 
 
 
@@ -471,10 +557,12 @@ const ajout_listener = grid.addEventListener('click', (event) => {
 
 
   if (!ajout_input) { return }
+  const find_id = cart_click.querySelector('.find_cart')
+
   const get_id_aj = find_id.textContent
   console.log(get_id_aj)
   // const get_index = creatures.findIndex(element => element.id == get_id_aj)
- const get_data_select = getCreatureById(get_id_aj)
+  const get_data_select = await getCreatureById(get_id_aj)
   const get_image_aj = get_data_select.image
   const get_name_aj = get_data_select.name
   let data_object = {
@@ -482,8 +570,8 @@ const ajout_listener = grid.addEventListener('click', (event) => {
     image: get_image_aj,
     name: get_name_aj
   }
-  
- 
+
+
 
   if (ajout_list.length < 6 && !ajout_list.some(element => element.image == get_image_aj)) {
     ajout_list.push(data_object)
@@ -493,7 +581,7 @@ const ajout_listener = grid.addEventListener('click', (event) => {
     const get_count2 = document.getElementById('team-count2')
     get_count2.textContent = `${ajout_list.length}`
     ajout_input.setAttribute('disabled', '')
-    details.querySelector('#ajouter').setAttribute('disabled', '')
+    document.querySelector('#ajouter').setAttribute('disabled', '')
 
 
     get_team_div.innerHTML = ""
@@ -557,17 +645,64 @@ const retirer_listener = get_team_div_r.addEventListener('click', (event) => {
 grid.addEventListener('click', async event => {
   const event_click = event.target.closest('[data-delete]')
   if (event_click) {
-   const message_confirmation = confirm('are you sure ?')
+    const message_confirmation = confirm('are you sure ?')
     if (!message_confirmation) {
-      return 
+      return
     }
-    await deleteCreature( event_click.dataset.delete )
-    creatures = await  getCreatures ('/creatures')
-    Affichez(creatures , grid)
+    await deleteCreature(event_click.dataset.delete)
+    creatures = await getCreatures('/creatures')
+    Affichez(creatures, grid)
   }
+})
+// ===========================================
+
+/// edit ////
+
+// ============================================
+grid.addEventListener('click', async event => {
+  const edit_event = event.target.closest('[data-edit]')
+  if (!edit_event) {
+    return
+  }
+  const message_confirmation2 = confirm('are you sure ?')
+  if (!message_confirmation2) {
+    return
+  }
+  get_form.removeAttribute('data-formstatus')
+  get_form.setAttribute('data-formstatus', 'edit')
+  submitbouton.removeAttribute("disabled")
+  document.querySelector('[name="id"]').readOnly = true
+
+  const getEditCreature = await getCreatureById(edit_event.dataset.edit)
+  getEditCreature.stat1 = getEditCreature.stats.hp
+  getEditCreature.stat2 = getEditCreature.stats.attack
+  getEditCreature.stat3 = getEditCreature.stats.defence
+  delete getEditCreature.stats
+  console.log(getEditCreature)
+  Object.entries(getEditCreature).forEach(([key, valu]) => {
+    console.log(valu)
+    const input = document.querySelector(`[name=${key}]`).value = valu
+
+
+  })
+
+  id_check = true;
+  name_check = true;
+  level_check = true;
+  stat1_check = true;
+  stat2_check = true;
+  stat3_check = true;
+  image_check = true;
+ description_check = true;
+
+
+
 })
 
 
 // -------------------------------------------------------------
 // BONUS : LocalStorage, Fetch API, tri, comparaison
 // -------------------------------------------------------------
+
+
+

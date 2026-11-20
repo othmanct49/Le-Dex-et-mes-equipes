@@ -48,6 +48,10 @@ export async function createCreature(objet , route) {
 export async function deleteCreature(id) {
   await request ('DELETE' , `/creatures/${id}` )
 }
+export async function updateCreature(id , body) {
+  await request('PUT', `/creatures/${id}` , body)
+  
+ }
 
 
 

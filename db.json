@@ -162,22 +162,22 @@
       "type": "Plante",
       "level": "Base",
       "stats": {
-        "hp": 70,
-        "attack": 45,
-        "defence": 48
+        "hp": "70",
+        "attack": "45",
+        "defence": "48"
       },
       "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/35.png",
       "description": "On dit qu'il est attiré par la lumière de la lune et qu'il danse lors des nuits claires."
     },
     {
       "id": 14,
-      "name": "Mystherbe",
+      "name": "mcha",
       "type": "Plante",
       "level": "Base",
       "stats": {
-        "hp": 45,
-        "attack": 50,
-        "defence": 55
+        "hp": "45",
+        "attack": "50",
+        "defence": "55"
       },
       "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/43.png",
       "description": "Il se cache le jour dans le sol pour absorber les nutriments et sort la nuit pour se déplacer."
