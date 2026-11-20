@@ -18,7 +18,7 @@ const get_form = document.querySelector('#creature-form');
 let typeActiveLS = getTypeLS()
 const typeStile = document.querySelector(`[data-type="${typeActiveLS}"]`)
 const submitbouton = get_form.querySelector("#submit")
-const tousButton = document.querySelectorAll('.btn-primary')
+export const  tousButton = document.querySelectorAll('.btn-primary')
 
 
 
@@ -51,7 +51,6 @@ if (typeActiveLS !== 'Tous') {
 Trier.addEventListener('change', async () => {
   typeActiveLS = getTypeLS()
   if (typeActiveLS === 'Tous') {
-    // tousButton.
     creatures = await getCreatures(`/creatures?${Trier.value}`)
     if (creatures.length === 0) {
       not_fond(`${typeActiveLS}`)

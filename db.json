@@ -71,9 +71,9 @@
       "type": "Feu",
       "level": "Stade 2",
       "stats": {
-        "hp": 78,
-        "attack": 84,
-        "defence": 78
+        "hp": "78",
+        "attack": "84",
+        "defence": "78"
       },
       "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png",
       "description": "Il crache un feu si puissant qu'il peut faire fondre la roche. Il vole à la recherche d'adversaires."
@@ -181,19 +181,6 @@
       },
       "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/43.png",
       "description": "Il se cache le jour dans le sol pour absorber les nutriments et sort la nuit pour se déplacer."
-    },
-    {
-      "id": 15,
-      "name": "Fantominus",
-      "type": "Ténèbres",
-      "level": "Base",
-      "stats": {
-        "hp": 30,
-        "attack": 35,
-        "defence": 30
-      },
-      "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/92.png",
-      "description": "Composé de gaz toxique à 95%, il peut envelopper n'importe quelle cible pour l'endormir."
     }
   ],
   "teams": [

@@ -1,5 +1,6 @@
  import {messageEreur} from '../ui.js' 
- import {grid} from '../main.js'
+import { grid , tousButton } from '../main.js'
+ 
  const URL_BASE = "http://localhost:3000"
 
      
@@ -34,22 +35,62 @@ try{
 
 
 
-  export async function getCreatures( route ){
-    const data = await request(  "GET" , route )
+export async function getCreatures(route) {
+  const buttonStates = Array.from(tousButton, button => button.disabled);
+
+  tousButton.forEach(button => {
+    button.disabled = true;
+  });
+  const data = await request("GET", route)
+  tousButton.forEach((button, index) => {
+    button.disabled = buttonStates[index];
+  });
     return  Promise.all(data)
  }
- export async function getCreatureById(id) {
-    const data = await request( "GET" , `/creatures/${id}`)
-    return data
+export async function getCreatureById(id) {
+  const buttonStates = Array.from(tousButton, button => button.disabled);
+
+  tousButton.forEach(button => {
+    button.disabled = true;
+  });
+  const data = await request("GET", `/creatures/${id}`)
+  tousButton.forEach((button, index) => {
+    button.disabled = buttonStates[index];
+  });
+  return data ;
  }
-export async function createCreature(objet , route) {
-  await request('POST', route , objet )                                                                                                                                                                                         
+export async function createCreature(objet, route) {
+  const buttonStates = Array.from(tousButton, button => button.disabled);
+
+  tousButton.forEach(button => {
+    button.disabled = true;
+  });
+  await request('POST', route, objet)      
+  tousButton.forEach((button, index) => {
+    button.disabled = buttonStates[index];
+  });
 }
 export async function deleteCreature(id) {
-  await request ('DELETE' , `/creatures/${id}` )
+  const buttonStates = Array.from(tousButton, button => button.disabled);
+
+  tousButton.forEach(button => {
+    button.disabled = true;
+  });
+  await request('DELETE', `/creatures/${id}`)
+  tousButton.forEach((button, index) => {
+    button.disabled = buttonStates[index];
+  });
 }
-export async function updateCreature(id , body) {
-  await request('PUT', `/creatures/${id}` , body)
+export async function updateCreature(id, body) {
+  const buttonStates = Array.from(tousButton, button => button.disabled);
+
+  tousButton.forEach(button => {
+    button.disabled = true;
+  });
+  await request('PUT', `/creatures/${id}`, body)
+  tousButton.forEach((button, index) => {
+    button.disabled = buttonStates[index];
+  });
   
  }
 
