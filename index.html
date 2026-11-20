@@ -46,27 +46,57 @@
           <input id="search" type="search" placeholder="ex. Mossling" class="field font-normal">
         </label>
       </div>
+      <div class="grid grid-cols-[4fr_1fr]  gap-10">
       <div id="filters" role="group" aria-label="Filtrer par type"
-        class="flex h-11 flex-nowrap gap-2 lg:overflow-hidden  overflow-x-auto ">
+        class="flex h-18  flex-nowrap gap-2   overflow-x-auto    ">
         <button type="button" class="chip bg-ink text-white border-ink shrink-0">Tous</button>
-        <button type="button" class="chip shrink-0">Feu</button>
-        <button type="button" class="chip shrink-0">Eau</button>
-        <button type="button" class="chip shrink-0">Plante</button>
-        <button type="button" class="chip shrink-0">Électrik</button>
-        <button type="button" class="chip shrink-0">Glace</button>
-        <button type="button" class="chip shrink-0">Ténèbres</button>
+        <button type="button" data-type="Feu" class="chip shrink-0">Feu</button>
+        <button type="button" data-type="Eau" class="chip shrink-0">Eau</button>
+        <button type="button" data-type="Plante" class="chip shrink-0">Plante</button>
+        <button type="button" data-type="Électrik" class="chip shrink-0">Électrik</button>
+        <button type="button" data-type="Glace" class="chip shrink-0">Glace</button>
+        <button type="button" data-type="Ténèbres" class="chip shrink-0">Ténèbres</button>
+        <button type="button" data-type="Normal" class="chip shrink-0">Normal</button>
+        <button type="button" data-type="Combat" class="chip shrink-0">Combat</button>
+        <button type="button" data-type="Vol" class="chip shrink-0">Vol</button>
+        <button type="button" data-type="Poison" class="chip shrink-0">Poison</button>
+        <button type="button" data-type="Sol" class="chip shrink-0">Sol</button>
+        <button type="button" data-type="Roche" class="chip shrink-0">Roche</button>
+        <button type="button" data-type="Insecte" class="chip shrink-0">Insecte</button>
+        <button type="button" data-type="Spectre" class="chip shrink-0">Spectre</button>
+        <button type="button" data-type="Acier" class="chip shrink-0">Acier</button>
+        <button type="button" data-type="Psy" class="chip shrink-0">Psy</button>
+        <button type="button" data-type="Dragon" class="chip shrink-0">Dragon</button>
+        <button type="button" data-type="Fée" class="chip shrink-0">Fée</button>
       </div>
+              <select name="Trier" class="field font-normal w-40">
+                <option value="">Choisir un type</option>
+                <option value="&_sort=name&_order=asc">nom A → Z</option>
+                <option value="&_sort=name&_order=desc">nom Z → A</option>
+                <option value="&_sort=numero&_order=asc">numéro</option>
+              
+              </select>
+      </div>
+
     </section>
+    
 
     <div class="flex flex-col lg:flex-row gap-8 items-start">
 
       <!-- ===================== GRILLE DES CRÉATURES ===================== -->
-      <section id="grid" aria-label="Créatures"
+       <section class="flex-1 min-w-0">
+      <div id="grid" aria-label="Créatures"
         class=" grid min-w-80 lg:min-w-0 flex-1  items-center mx-auto grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gr gap-5">
+ 
 
+      </div>
+    
       </section>
+      
+      
 
       <aside class="flex lg:w-[420px] mx-auto lg:shrink-0 flex-col gap-6">
+
 
         <!-- ===================== PANNEAU DE DÉTAIL ===================== -->
         <section id="detail" aria-label="Détail de la créature"
@@ -75,17 +105,21 @@
         </section>
 
         <!-- ===================== MON ÉQUIPE (INCOMPLÈTE) ===================== -->
-        <section id="team" aria-label="Mon équipe" class="flex flex-col bg-white p-6">
+        <section id="team" aria-label="Mon équipe" class="flex flex-col bg-white p-6 rounded-[20px]">
           <h2 class="font-display text-2xl font-extrabold">Mon équipe <span id="team-count2" >0</span>  / 6 </h2>
           <div id="team_aj" class="grid mx-auto lg:grid-cols-3 gap-6 pt-6 grid-cols-2">
-            
-           
-
           </div>
           <div id="message">
-        
           </div>
         </section>
+
+        <!-- ====================  FAVORIT  =========================== -->
+         <section id="favrit"  class="flex flex-col bg-white p-6 rounded-[20px]" >
+           <h2 class="font-display text-2xl font-extrabold"> Faavorit </h2>
+           <div id="fav_aj" class="grid mx-auto lg:grid-cols-3 gap-6 pt-6 grid-cols-2">
+ 
+           </div>
+           </section>
       </aside>
     </div>
     <!-- ===================== FORMULAIRE DE CRÉATION ===================== -->
@@ -94,9 +128,9 @@
         <h2 class="font-display text-3xl font-extrabold">Nouvelle créature</h2>
         <p class="text-muted">Chaque champ est vérifié avant l'ajout de la créature.</p>
       </div>
-      <form id="creature-form" novalidate class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
+      <form id="creature-form" data-formstatus="new" novalidate class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
         <label class="flex flex-col gap-1 text-sm font-bold">Numéro
-          <input name="id" type="text" placeholder="#010" class="field font-normal">
+          <input name="id" type="text" placeholder="10" class="field font-normal">
           <span class="error-message text-sm font-normal text-red-600"></span>
         </label>
         <label class="flex flex-col gap-1 text-sm font-bold">Nom
@@ -153,9 +187,11 @@
   <footer class="mx-auto max-w-7xl px-8 pb-10 text-sm text-muted">
     Images : [source des images de votre univers]. Projet de fans réalisé dans le cadre d'une formation.
   </footer>
+  
 
   <!-- data.js (à créer) doit être chargé AVANT script.js -->
   <script type="module" src="./src/main.js"></script>
+  <script type="modul" src="./src/ui.js"></script>
 </body>
 
 </html>
