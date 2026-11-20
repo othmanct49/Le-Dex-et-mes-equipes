@@ -56,4 +56,10 @@ export function getTypeLS (){
     const type = JSON.parse(localStorage.getItem('type')) || "Tous"
     return type
 }
-
+export function addFormSS(form , key) {
+    sessionStorage.setItem(key, JSON.stringify(form))
+}
+export function getFormSS(key) {
+    const type = JSON.parse(sessionStorage.getItem(key)) || ""
+    return type
+}

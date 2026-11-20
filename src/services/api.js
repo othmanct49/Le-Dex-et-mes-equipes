@@ -42,6 +42,12 @@ try{
     const data = await request( "GET" , `/creatures/${id}`)
     return data
  }
+export async function createCreature(objet) {
+  await request('POST', "/creatures" , objet )                                                                                                                                                                                         
+     
+
+  
+}
 
 
 

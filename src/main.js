@@ -1,6 +1,7 @@
-import { pluscaracter, numberPlus, suprimernumberPlusfiltre, addFavLS, removeFavLS, plusfeltre20, addTypeLS, getTypeLS } from './storage.js'
+import { pluscaracter, numberPlus, suprimernumberPlusfiltre, addFavLS, removeFavLS, plusfeltre20, addTypeLS, getTypeLS, getFormSS, addFormSS } from './storage.js'
 import { Affichez, Affichez_details, affichez_filter, serchaffichag, videcart, not_fond, affechezFav, messageEreur } from './ui.js';
-import { request, getCreatures, getCreatureById } from './services/api.js'
+import { request, getCreatures, getCreatureById, createCreature } from './services/api.js'
+
 
 // -------------------------------------------------------------
 // 1. AFFICHAGE
@@ -12,8 +13,10 @@ const Charger_plus = document.getElementById('Charger_plus')
 const effacer = document.getElementById('effacer')
 const remove_style_button = document.querySelectorAll('button')
 const Trier = document.querySelector('[name="Trier"]')
+const get_form = document.querySelector('#creature-form');
 let typeActiveLS = getTypeLS()
 const typeStile = document.querySelector(`[data-type="${typeActiveLS}"]`)
+
 
 
 affechezFav(fav_aj)
@@ -45,14 +48,14 @@ if (typeActiveLS !== 'Tous') {
 Trier.addEventListener('change', async () => {
   typeActiveLS = getTypeLS()
   if (typeActiveLS === 'Tous') {
-    creatures = await getCreatures(`/creatures${Trier.value}`)
+    creatures = await getCreatures(`/creatures?${Trier.value}`)
     if (creatures.length === 0) {
       not_fond(`${typeActiveLS}`)
 
     } else {
-      Affichez ( creatures , grid)
+      Affichez(creatures, grid)
     }
-  
+
   } else {
     creatures = await getCreatures(`/creatures?type=${typeActiveLS}${Trier.value}`)
     if (creatures.length === 0) {
@@ -60,10 +63,32 @@ Trier.addEventListener('change', async () => {
     } else {
       Affichez(creatures, grid)
     }
-  
+
   }
 
 })
+// ===============================================
+//      get and affichez form from SS 
+// ===============================================
+let id_check = false;
+let name_check = false;
+let level_check = false;
+let stat1_check = false;
+let stat2_check = false;
+let stat3_check = false;
+let image_check = false;
+let description_check = false;
+const formType = ['id', 'name', 'level', "stat1", "stat2", "stat3", "image", "type", "description"]
+formType.forEach(element => {
+  if (element === "") {
+    return
+  }
+  document.querySelector(`[name=${element}]`).value = getFormSS(element)
+})
+
+
+
+
 
 
 
@@ -124,7 +149,7 @@ details.addEventListener('click', (event) => {
 let search = document.getElementById('search');
 async function serch(input_search) {
   const optionSelect = Trier.value
-    typeActiveLS = getTypeLS()
+  typeActiveLS = getTypeLS()
   if (typeActiveLS === "Tous") {
     grid.innerHTML = " "
     videcart()
@@ -264,33 +289,37 @@ const click_type = type.addEventListener('click', async (event) => {
 // (voir le tableau du brief). Affichez le message d'erreur sous le
 // champ, et n'ajoutez jamais une créature invalide.
 
-let id_check = false;
-let name_check = false;
-let level_check = false;
-let stat1_check = false;
-let stat2_check = false;
-let stat3_check = false;
-let image_check = false;
-let description_check = false;
 
 
 
-const get_form = document.querySelector('#creature-form');
-const listener = get_form.addEventListener('input', (event) => {
+
+const listener = get_form.addEventListener('input', async (event) => {
+
+
+  let descriptionFormSS = getTypeLS("description");
+
   const get_input_value = event.target.value
   const get_input_name = event.target.name
   let arry_id = [];
+  creatures = await getCreatures('/creatures')
+  console.log(creatures)
   creatures.forEach(idtcheck => {
     arry_id.push(idtcheck.id)
   })
+  console.log(arry_id)
+  console.log(arry_id.length)
 
-  if (get_input_name == "id" && !arry_id.includes(get_input_value)) {
-    let regix = /^\x23[0-9]{3}$/
+  if (get_input_name == "id" && !arry_id.some(id => id == get_input_value)) {
+    addFormSS(get_input_value, "id")
+    let regix = /^[0-9]{1,3}$/
     id_check = regix.test(get_input_value)
+
     console.log(id_check)
 
 
   } else if (get_input_name == "name") {
+    addFormSS(get_input_value, "name")
+
     let regixn = /^[a-zA-Z0-9]+$/;
     name_check = regixn.test(get_input_value)
     console.log(name_check)
@@ -298,29 +327,38 @@ const listener = get_form.addEventListener('input', (event) => {
 
 
   } else if (get_input_name == "level") {
+    addFormSS(  get_input_value, "level")
     let regixl = /^[a-zA-Z0-9 ]+$/
     level_check = regixl.test(get_input_value)
     console.log(level_check)
 
   } else if (get_input_name == "stat1") {
+    addFormSS(get_input_value, "stat1")
+
     let regixs1 = /^[0-9]{1,3}$/
     stat1_check = regixs1.test(get_input_value)
     console.log(stat1_check)
   }
   else if (get_input_name == "stat2") {
+    addFormSS(get_input_value, "stat2")
+
     let regixs2 = /^[0-9]{1,3}$/
     stat2_check = regixs2.test(get_input_value)
     console.log(stat2_check)
   } else if (get_input_name == "stat3") {
+    addFormSS(get_input_value, "stat3")
+
     let regixs3 = /^[0-9]{1,3}$/
     stat3_check = regixs3.test(get_input_value)
     console.log(stat3_check)
   } else if (get_input_name == "image") {
+    addFormSS(get_input_value, "image")
     let regixim = /^https?:\/\/.+\.png$/;
     image_check = regixim.test(get_input_value)
     console.log(image_check)
 
   } else if (get_input_name == "description") {
+    addFormSS(get_input_value, "description")
     let regixdes = /^.{10,200}$/;
     description_check = regixdes.test(get_input_value)
     console.log(description_check)
@@ -353,7 +391,8 @@ const listenerB = get_form.addEventListener("submit", (event) => {
     description: nwe_data.get("description")
 
   }
-  creatures.push(data_add)
+  createCreature(data_add)
+
   grid.innerHTML = ""
   Affichez()
   let id_check = false;
